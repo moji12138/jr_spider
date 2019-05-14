@@ -24,5 +24,5 @@
 ```
 2. 调用工厂类
 ```python3 
-  
+  jrobj = JinRi.get(url)
 ```
