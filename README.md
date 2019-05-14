@@ -18,11 +18,11 @@
 |   img2.jpeg
 ```
 ## 使用方法
-1. import spider模块
-```python3
-  from JRspider import *
+1. 安装requests，python-docx，beautifulsoup库
+```bash
+  # python3 -m pip install requests
+  # python3 -m pip install python-docx
+  # python3 -m pip install BeautifulSoup4
 ```
-2. 调用工厂类
-```python3 
-  jrobj = JinRi.get(url)
-```
+2. 调用
+3. 查看文件
