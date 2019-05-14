@@ -1,5 +1,11 @@
 # jr_spider
 今日头条文章爬取 生成docx文档
+## 功能：
+将今日头条的文章和悟空问答的页面生成docx格式的文档
+- 头条文章 √
+- 悟空问答 √
+- 头条图集 ×
+- 付费文章 ×
 ## 目录结构
 ```bash
 |-JRspider.py   [spider类]
@@ -16,6 +22,7 @@
 ```python3
   from JRspider import *
 ```
-2. 实例化工厂类
+2. 调用工厂类
 ```python3 
+  
 ```
