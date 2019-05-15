@@ -9,9 +9,9 @@
 ## 支持链接形式如下：
 **注意： 悟空问答链接需要为带有answer关键字的链接**  
 - 今日头条
-1. https://www.toutiao.com/a6691121448884371982/
+- https://www.toutiao.com/a6691121448884371982/
 - 悟空问答
-1. https://www.wukong.com/answer/6679937061857788172/
+- https://www.wukong.com/answer/6679937061857788172/
 ## 目录结构
 ```bash
 |-JRspider.py   [spider类]
