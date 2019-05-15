@@ -25,4 +25,11 @@
   # python3 -m pip install BeautifulSoup4
 ```
 2. 调用
+```python3
+  from JRspider import *
+  url = "https://www.toutiao.com/a6691121448884371982/"
+  jrobj = JinRi().get(url)
+  docName = jrobj.get_docx()
+  print(docName)
+```
 3. 查看文件
