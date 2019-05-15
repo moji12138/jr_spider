@@ -32,5 +32,5 @@
   docName = jrobj.get_docx()    #调用get_docx()方法生成文档 返回文档名字符串
   print(docName)    #打印文件名 非None即为已经生成
 ```
-3. 查看文件
+3. 查看文件  
 在docment目录中查看 不再赘述
