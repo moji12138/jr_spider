@@ -27,9 +27,10 @@
 2. 调用
 ```python3
   from JRspider import *
-  url = "https://www.toutiao.com/a6691121448884371982/"
-  jrobj = JinRi().get(url)
-  docName = jrobj.get_docx()
-  print(docName)
+  url = "https://www.toutiao.com/a6691121448884371982/"   #今日头条或悟空问答(回答)的链接
+  jrobj = JinRi.get(url)  #调用工厂类的get方法
+  docName = jrobj.get_docx()    #调用get_docx()方法生成文档 返回文档名字符串
+  print(docName)    #打印文件名 非None即为已经生成
 ```
 3. 查看文件
+在docment目录中查看 不再赘述
