@@ -29,7 +29,7 @@
   # python3 -m pip install requests
   # python3 -m pip install python-docx
   # python3 -m pip install BeautifulSoup4
-  # python3 -m pip install PyOpenSSL
+  # python3 -m pip install pyOpenSSL
 ```
 2. 调用
 ```python3
