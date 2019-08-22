@@ -43,7 +43,7 @@ class JinRi():
             }
             reqobj = requests.get(url, headers=header)
             surl_rule = r"([^0-9]*\d*/)"
-            surl = surl = re.search(surl_rule,reqobj.url).group(1)
+            surl = re.search(surl_rule,reqobj.url).group(1)
             if reqobj.url.count("wukong"):
                 return Wukong(surl)
             else:
@@ -84,6 +84,9 @@ class JR2docx():
 
     __repr__ = __str__
 
+    def decode(self,match):
+        return (bytes(match.group(),encoding='utf-8').decode('unicode-escape'))
+
     @property
     def get_requests(self):
         '''
@@ -93,8 +96,9 @@ class JR2docx():
         try:
             req = requests.get(self.url, headers=self.header)
             req.encoding = r"utf-8"
+            data = req.text
             if req.status_code == 200:
-                return req.text
+                return data
             return None
         except RequestException:
             print(u"请求页面出错")
@@ -166,18 +170,25 @@ class Toutiao(JR2docx):
         '''
         返回有效数据的字典
         '''
-        textRule = re.compile(r"(src&#x3D;&quot;|&gt;)(.*?)(&quot;|&lt;)")   # 正文文本规则
-        titleRule = re.compile(r"title: '(.*?)',")                           # 标题规则
         webText = []    # 初始化正文列表
+
+        data = re.search(r'content: \'&quot;(.*?)&quot;\'\.slice\(6, -6\),',self.get_requests)
+        data = re.sub(r'\\u00..',self.decode,data.group(1))
+        data = data.replace('&#x3D;','=')
+        data = data.replace('\\&quot;','"')
+
+        soup = BeautifulSoup(data, 'lxml')
+        titleRule = re.compile(r"title: '&quot;(.*?)&quot;'.")                           # 标题规则
         try:
             searchTitle = titleRule.search(self.get_requests)
             self.title = searchTitle.group(1)
-            content = textRule.finditer(self.get_requests)
-            # 如果内容不为空 添加到正文列表
-            for text in content:
-                if text.group(2) is not "":
-                    webText.append(text.group(2))
-            
+            for div in soup.select('div')[0]:
+                if div.img:
+                    webText.append(div.img.get("src"))
+                else:
+                    if div.text.count('#pgc-card') == 0:
+                        webText.append(div.text)
+            print(webText)
             return webText
         except TypeError:
             print("爬取数据失败")
@@ -217,12 +228,14 @@ class Wukong(JR2docx):
 
 
 if __name__ == "__main__":
-    url = "https://www.toutiao.com/a6682926082330460684/"
+    # url = "https://www.toutiao.com/a6726379451988312588/"
+    url = "https://m.toutiaocdn.com/group/6727050538455663112/?app=news_article&amp;timestamp=1566293660&amp;req_id=201908201734190101520452095706A26&amp;group_id=6727050538455663112&amp;wxshare_count=1&amp;tt_from=weixin&amp;utm_source=weixin&amp;utm_medium=toutiao_android&amp;utm_campaign=client_share"
     jrobj = JinRi.get(url)
     print(jrobj.get_docx())
     # url = "https://m.zjurl.cn/answer/6676996556949815565/?app=news_article&amp;app_id=13&amp;share_ansid=6676996556949815565&amp;wxshare_count=1&amp;tt_from=weixin&amp;utm_source=weixin&amp;utm_medium=toutiao_android&amp;utm_campaign=client_share"
     # jrobj = JinRi.get(url)
     # print(jrobj.get_docx())
+    # url = "https://m.toutiaoimg.com/group/6716796160998130183/?app=news_article&amp;timestamp=1566259183&amp;group_id=6716796160998130183&amp;wxshare_count=1&amp;tt_from=weixin&amp;utm_source=weixin&amp;utm_medium=toutiao_android&amp;utm_campaign=client_share"
     # url = "https://m.zjurl.cn/answer/6676992333466042632/?app=news_article&amp;app_id=13&amp;share_ansid=6676992333466042632&amp;wxshare_count=1&amp;tt_from=weixin&amp;utm_source=weixin&amp;utm_medium=toutiao_android&amp;utm_campaign=client_share"
     # jrobj = JinRi.get(url)
     # print(jrobj.get_docx())
